@@ -1,6 +1,7 @@
 package com.hengheng.controller;
 
 import com.hengheng.common.utils.AjaxResult;
+import com.hengheng.pojo.query.LoginQuery;
 import com.hengheng.pojo.query.RegisterQuery;
 import com.hengheng.service.LoginService;
 import io.swagger.annotations.Api;
@@ -38,13 +39,8 @@ public class LoginController {
     }
 
     @PostMapping("login")
-    @ApiOperation("注册账号")
-    public AjaxResult login(@RequestBody @Valid RegisterQuery registerQuery) {
-        Boolean result = loginService.register(registerQuery);
-        if (result) {
-            return AjaxResult.success();
-        }else {
-            return AjaxResult.error();
-        }
+    @ApiOperation("登录")
+    public AjaxResult login(@RequestBody @Valid LoginQuery loginQuery) {
+        return loginService.login(loginQuery);
     }
 }

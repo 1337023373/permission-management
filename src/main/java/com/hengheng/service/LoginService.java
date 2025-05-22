@@ -1,5 +1,7 @@
 package com.hengheng.service;
 
+import com.hengheng.common.utils.AjaxResult;
+import com.hengheng.pojo.query.LoginQuery;
 import com.hengheng.pojo.query.RegisterQuery;
 
 /**
@@ -18,4 +20,13 @@ public interface LoginService {
      * @return  boolean
      */
     Boolean register(RegisterQuery registerQuery);
+
+    /**
+     * @description 登录
+     * @param
+     * @author  lkj
+     * @date  2025/5/22
+     * @return
+     */
+    AjaxResult login(LoginQuery loginQuery);
 }

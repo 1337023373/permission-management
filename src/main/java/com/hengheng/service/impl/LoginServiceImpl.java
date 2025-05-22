@@ -1,10 +1,15 @@
 package com.hengheng.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.SecureUtil;
+import com.hengheng.common.utils.AjaxResult;
+import com.hengheng.common.utils.RedisCache;
 import com.hengheng.pojo.entity.UserInfoEntity;
+import com.hengheng.pojo.query.LoginQuery;
 import com.hengheng.pojo.query.RegisterQuery;
 import com.hengheng.repository.UserInfoRepository;
 import com.hengheng.service.LoginService;
+import io.lettuce.core.RedisClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +24,8 @@ import javax.annotation.Resource;
 public class LoginServiceImpl implements LoginService {
     @Resource
     private UserInfoRepository userInfoRepository;
+    @Resource
+    private RedisCache redisCache;
 
     /**
      * @param registerQuery
@@ -34,5 +41,38 @@ public class LoginServiceImpl implements LoginService {
         BeanUtils.copyProperties(registerQuery, userInfoEntity);
         userInfoEntity.setPassword(encryptedPwd);
         return userInfoRepository.saveRegister(userInfoEntity);
+    }
+
+    /**
+     * @param loginQuery
+     * @return
+     * @description 登录
+     * @author lkj
+     * @date 2025/5/22
+     */
+    @Override
+    public AjaxResult login(LoginQuery loginQuery) {
+        String key ="captcha:" + loginQuery.getCaptchaId();
+        String cachedCaptcha  = redisCache.getCacheObject(key).toString();
+
+        if (cachedCaptcha == null) {
+            return AjaxResult.error("AjaxResult");
+        }
+        if (!cachedCaptcha.equalsIgnoreCase(loginQuery.getCode())) {
+            return AjaxResult.error("验证码错误");
+        }
+        //验证成功删除缓存，避免重复使用
+        redisCache.deleteObject(key);
+
+        //验证账号密码
+        UserInfoEntity userInfo = userInfoRepository.findUserByUserName(loginQuery.getUserName());
+        if (ObjectUtil.isEmpty(userInfo)) {
+            return AjaxResult.error("用户不存在");
+        }
+        if (!userInfo.getPassword().equals(SecureUtil.md5(loginQuery.getPassword()))) {
+            return AjaxResult.error("密码不正确");
+        }
+
+        return null;
     }
 }

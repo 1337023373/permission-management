@@ -24,4 +24,11 @@ public class LoginQuery {
     @NotBlank(message = "密码不能为空")
     @Size(min = 6, max = 20, message = "密码长度必须在6~20之间")
     private String password;
+
+    @ApiModelProperty("验证码")
+    @NotBlank(message = "验证码不能为空")
+    private String code;
+
+    @ApiModelProperty("验证码唯一标识")
+    private String captchaId;
 }

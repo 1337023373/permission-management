@@ -22,6 +22,9 @@
         <springfox-boot-starter>3.0.0</springfox-boot-starter>
         <commons-lang3>3.12.0</commons-lang3>
         <hibernate-validator>8.0.1.Final</hibernate-validator>
+        <kaptcha>2.3.2</kaptcha>
+        <hutool-jwt>5.8.25</hutool-jwt>
+        <jjwt>0.9.1</jjwt>
     </properties>
 
     <dependencies>
@@ -77,14 +80,9 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version> <!-- 请替换为最新的版本号 -->
+            <version>${hutool.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-jwt</artifactId>
-            <version>${hutool-jwt.version}</version>
-        </dependency>
         <!-- Swagger API文档 -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -104,6 +102,25 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator}</version>
         </dependency>
+
+        <!--  验证码       -->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>${kaptcha}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt}</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
