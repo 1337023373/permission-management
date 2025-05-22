@@ -15,12 +15,14 @@ spring: #springboot的配置
   datasource: #定义数据源
     #127.0.0.1为本机测试的ip，3306是mysql的端口号。serverTimezone是定义时区，照抄就好，mysql高版本需要定义这些东西
     #useSSL也是某些高版本mysql需要问有没有用SSL连接
-    url: jdbc:mysql://localhost:3306/sys?serverTimezone=GMT%2B8&useSSL=FALSE
+    url: jdbc:mysql://localhost:3306/eladmin?serverTimezone=GMT%2B8&useSSL=FALSE
     username: root  #数据库用户名，root为管理员
-    password: 123456 #该数据库用户的密码
+    password: root #该数据库用户的密码
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 # mybatis-plus相关配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
@@ -41,3 +43,14 @@ mybatis-plus:
     call-setters-on-nulls: true
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+#    swagger配置
+springfox:
+  documentation:
+    swagger-ui:
+      # 是否开启swagger
+      enabled: true
+
+
+
