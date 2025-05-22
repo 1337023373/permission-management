@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * @Author lkj
@@ -27,8 +28,23 @@ public class LoginController {
 
     @PostMapping("register")
     @ApiOperation("注册账号")
-    public AjaxResult register(@RequestBody RegisterQuery registerQuery) {
+    public AjaxResult register(@RequestBody @Valid RegisterQuery registerQuery) {
+        Boolean result = loginService.register(registerQuery);
+        if (result) {
+            return AjaxResult.success();
+        }else {
+            return AjaxResult.error();
+        }
+    }
 
-        return AjaxResult.success();
+    @PostMapping("login")
+    @ApiOperation("注册账号")
+    public AjaxResult login(@RequestBody @Valid RegisterQuery registerQuery) {
+        Boolean result = loginService.register(registerQuery);
+        if (result) {
+            return AjaxResult.success();
+        }else {
+            return AjaxResult.error();
+        }
     }
 }
