@@ -51,6 +51,8 @@ springfox:
     swagger-ui:
       # 是否开启swagger
       enabled: true
-
+    swagger:
+      v2:
+        enabled: true
 
 

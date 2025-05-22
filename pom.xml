@@ -21,6 +21,7 @@
         <druid.version>1.2.16</druid.version>
         <springfox-boot-starter>3.0.0</springfox-boot-starter>
         <commons-lang3>3.12.0</commons-lang3>
+        <hibernate-validator>8.0.1.Final</hibernate-validator>
     </properties>
 
     <dependencies>
@@ -95,6 +96,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3}</version>
+        </dependency>
+
+        <!--  validator       -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator}</version>
         </dependency>
     </dependencies>
 
