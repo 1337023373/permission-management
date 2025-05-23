@@ -23,6 +23,7 @@ spring: #springboot的配置
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
 # mybatis-plus相关配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
@@ -51,8 +52,11 @@ springfox:
     swagger-ui:
       # 是否开启swagger
       enabled: true
-    swagger:
-      v2:
-        enabled: true
+
+jwt:
+  key: ibudai
+  ttl: 300000 # 单位为毫秒（5分钟）
+  token: Authorization
+
 
 

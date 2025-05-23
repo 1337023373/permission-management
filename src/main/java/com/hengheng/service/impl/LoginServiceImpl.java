@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.hengheng.common.utils.AjaxResult;
 import com.hengheng.common.utils.RedisCache;
+import com.hengheng.common.utils.TokenUtil;
 import com.hengheng.pojo.entity.UserInfoEntity;
 import com.hengheng.pojo.query.LoginQuery;
 import com.hengheng.pojo.query.RegisterQuery;
@@ -14,6 +15,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author lkj
@@ -73,6 +76,10 @@ public class LoginServiceImpl implements LoginService {
             return AjaxResult.error("密码不正确");
         }
 
-        return null;
+        //生成token
+        String jwt = TokenUtil.createJWT(userInfo);
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", jwt);
+        return AjaxResult.success(data);
     }
 }
