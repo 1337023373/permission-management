@@ -89,7 +89,7 @@ public class TokenUtil {
                 // 计算内容
                 .setSubject(subject)
                 // 签发者
-                .setIssuer("budai")
+                .setIssuer("lkj")
                 // 签发时间
                 .setIssuedAt(now)
                 // 加密算法签名

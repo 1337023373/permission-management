@@ -1,4 +1,3 @@
-
 server:
   port: 9090   #  配置启动端口号
   servlet:
@@ -6,8 +5,8 @@ server:
 
 mybatis:
   config-location: classpath:mybatis.cfg.xml    #  mybatis主配置文件所在路径
-#  type-aliases-package: com.demo.drools.entity  #  定义所有操作类的别名所在包
-  mapper-locations:                                     #  所有的mapper映射文件
+  #  type-aliases-package: com.demo.drools.entity  #  定义所有操作类的别名所在包
+  mapper-locations: #  所有的mapper映射文件
     - classpath:mapper/*.xml
 
 
@@ -25,6 +24,7 @@ spring: #springboot的配置
       matching-strategy: ant_path_matcher
   profiles:
     active: company
+
 
 # mybatis-plus相关配置
 mybatis-plus:
@@ -60,5 +60,16 @@ jwt:
   ttl: 300000 # 单位为毫秒（5分钟）
   token: Authorization
 
-
-
+auth:
+  api:
+    free:
+      /**,
+      /hh/login,
+      /hh/captcha/**,
+      /hh/swagger-ui/**,
+      /hh/v3/api-docs/**,
+      /hh/swagger-resources/**,
+      /hh/webjars/**,
+      /hh/v2/api-docs
+    user: /hh/user/**
+    admin: /hh/admin/**

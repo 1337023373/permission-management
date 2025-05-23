@@ -21,5 +21,3 @@ spring: #springboot的配置
     # 连接超时时间
     timeout: 10s
     database: 10
-
-
