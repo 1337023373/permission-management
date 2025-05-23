@@ -23,6 +23,8 @@ spring: #springboot的配置
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  profiles:
+    active: company
 
 # mybatis-plus相关配置
 mybatis-plus:

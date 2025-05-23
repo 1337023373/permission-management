@@ -55,7 +55,8 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public AjaxResult login(LoginQuery loginQuery) {
-        String key ="captcha:" + loginQuery.getCaptchaId();
+        String key ="captcha:" + loginQuery.getCaptchaUUID();
+        System.out.println(key);
         String cachedCaptcha  = redisCache.getCacheObject(key).toString();
 
         if (cachedCaptcha == null) {

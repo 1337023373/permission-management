@@ -1,13 +1,16 @@
 package com.hengheng.common.utils;
 
 
+import com.hengheng.common.config.JwtProperties;
 import com.hengheng.pojo.entity.UserInfoEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.*;
@@ -17,27 +20,19 @@ import java.util.*;
  * @Date 2025/5/23 9:09
  * @Version 1.0
  */
+@Component
 public class TokenUtil {
+    private static JwtProperties jwtProperties ;
 
-    @Value("${jwt.key}")
-    private static String key;
-
-    @Value("${jwt.ttl}")
-    private static String ttl;
-    /**
-     * 密钥
-     */
-    public static final String JWT_KEY = key;
-    /**
-     * 过期时间
-     */
-    public static final Long JWT_TTL = Long.valueOf(ttl);
+    public TokenUtil(JwtProperties jwtProperties) {
+        TokenUtil.jwtProperties = jwtProperties;
+    }
 
     public static String createJWT(UserInfoEntity userInfo) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("userId", userInfo.getUserId());
         map.put("password", userInfo.getPassword());
-        return createJWT(map, JWT_TTL);
+        return createJWT(map, jwtProperties.getTtl());
     }
 
     /**
@@ -75,7 +70,7 @@ public class TokenUtil {
      * 生成加密后的秘钥
      */
     private static SecretKey generalKey() {
-        byte[] encodedKey = Base64.getDecoder().decode(JWT_KEY);
+        byte[] encodedKey = Base64.getDecoder().decode(jwtProperties.getKey());
         return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
     }
 
@@ -85,7 +80,7 @@ public class TokenUtil {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         if (ttlMillis == null) {
-            ttlMillis = JWT_TTL;
+            ttlMillis = jwtProperties.getTtl();
         }
         long expMillis = nowMillis + ttlMillis;
         Date expDate = new Date(expMillis);

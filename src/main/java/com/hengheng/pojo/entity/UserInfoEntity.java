@@ -1,5 +1,6 @@
 package com.hengheng.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.hengheng.pojo.common.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@TableName("sys_user")
 public class UserInfoEntity extends BaseEntity {
 
     @ApiModelProperty("用户ID")

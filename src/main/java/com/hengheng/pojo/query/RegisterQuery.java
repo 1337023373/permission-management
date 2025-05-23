@@ -18,7 +18,7 @@ public class RegisterQuery {
     @ApiModelProperty("用户名")
     @NotBlank(message = "用户名不能为空")
     @Size(min = 3, max = 20, message = "用户名长度必须在3~20之间")
-    private String userName;
+    private String username;
 
     @ApiModelProperty("昵称")
     @NotBlank(message = "昵称不能为空")

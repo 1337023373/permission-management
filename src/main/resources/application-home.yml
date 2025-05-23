@@ -1,0 +1,25 @@
+spring: #springboot的配置
+  datasource: #定义数据源
+    #127.0.0.1为本机测试的ip，3306是mysql的端口号。serverTimezone是定义时区，照抄就好，mysql高版本需要定义这些东西
+    #useSSL也是某些高版本mysql需要问有没有用SSL连接
+    url: jdbc:mysql://localhost:3306/eladmin?serverTimezone=GMT%2B8&useSSL=FALSE
+    username: root  #数据库用户名，root为管理员
+    password: root #该数据库用户的密码
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  redis:
+    # 地址
+    host: 47.108.196.227
+    # 端口，默认为6379
+    port: 16379
+    # 密码
+    password:
+    # 连接超时时间
+    timeout: 10s
+    database: 10
+
+

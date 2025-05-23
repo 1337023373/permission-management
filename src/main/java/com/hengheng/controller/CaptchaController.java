@@ -45,8 +45,9 @@ public class CaptchaController {
         String uuid = UUID.randomUUID().toString();
 
     //    把验证码存入redis中，设置有效期5分钟
-        redisCache.setCacheObject("captcha" + uuid, captchaText,5, TimeUnit.MINUTES);
-
+        redisCache.setCacheObject("captcha:" + uuid, captchaText,5, TimeUnit.MINUTES);
+        System.out.println("Redis 查询 key：" + "captcha:" + uuid);
+        System.out.println("Redis 查询值：" + redisCache.getCacheObject("captcha:" + uuid));
     //    生成图片
         BufferedImage image = captchaProducer.createImage(captchaText);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -55,7 +56,7 @@ public class CaptchaController {
 
         HashMap<String, String> resultMap = new HashMap<>();
         resultMap.put("uuid", uuid);
-        resultMap.put("image", "data:image/jpg;base64," + base64Img);
+        resultMap.put("image", base64Img);
         return AjaxResult.success(resultMap);
     }
 }

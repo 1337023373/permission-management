@@ -30,5 +30,5 @@ public class LoginQuery {
     private String code;
 
     @ApiModelProperty("验证码唯一标识")
-    private String captchaId;
+    private String captchaUUID;
 }
