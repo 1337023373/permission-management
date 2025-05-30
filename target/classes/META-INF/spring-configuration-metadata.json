@@ -1,0 +1,86 @@
+{
+  "groups": [
+    {
+      "name": "jjwt",
+      "type": "com.hengheng.security.config.bean.SecurityProperties",
+      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
+    },
+    {
+      "name": "jwt",
+      "type": "com.hengheng.common.config.JwtProperties",
+      "sourceType": "com.hengheng.common.config.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jjwt.base64-secret",
+      "type": "java.lang.String",
+      "description": "必须使用最少88位的Base64对该令牌进行编码",
+      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
+    },
+    {
+      "name": "jjwt.code-key",
+      "type": "java.lang.String",
+      "description": "验证码 key",
+      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
+    },
+    {
+      "name": "jjwt.detect",
+      "type": "java.lang.Long",
+      "description": "token 续期检查",
+      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
+    },
+    {
+      "name": "jjwt.header",
+      "type": "java.lang.String",
+      "description": "Request Headers ： Authorization",
+      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
+    },
+    {
+      "name": "jjwt.online-key",
+      "type": "java.lang.String",
+      "description": "在线用户 key，根据 key 查询 redis 中在线用户的数据",
+      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
+    },
+    {
+      "name": "jjwt.renew",
+      "type": "java.lang.Long",
+      "description": "续期时间",
+      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
+    },
+    {
+      "name": "jjwt.token-start-with",
+      "type": "java.lang.String",
+      "description": "令牌前缀，最后留个空格 Bearer",
+      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
+    },
+    {
+      "name": "jjwt.token-validity-in-seconds",
+      "type": "java.lang.Long",
+      "description": "令牌过期时间 此处单位\/毫秒",
+      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
+    },
+    {
+      "name": "jwt.key",
+      "type": "java.lang.String",
+      "sourceType": "com.hengheng.common.config.JwtProperties"
+    },
+    {
+      "name": "jwt.token",
+      "type": "java.lang.String",
+      "sourceType": "com.hengheng.common.config.JwtProperties"
+    },
+    {
+      "name": "jwt.token-start-with",
+      "type": "java.lang.String",
+      "description": "令牌前缀，最后留个空格 Bearer",
+      "sourceType": "com.hengheng.common.config.JwtProperties"
+    },
+    {
+      "name": "jwt.ttl",
+      "type": "java.lang.Long",
+      "sourceType": "com.hengheng.common.config.JwtProperties"
+    }
+  ],
+  "hints": []
+}
