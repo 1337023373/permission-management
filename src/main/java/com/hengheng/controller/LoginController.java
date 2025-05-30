@@ -1,13 +1,12 @@
 package com.hengheng.controller;
 
+import com.hengheng.common.annotation.rest.AnonymousPostMapping;
 import com.hengheng.common.utils.AjaxResult;
 import com.hengheng.pojo.query.LoginQuery;
 import com.hengheng.pojo.query.RegisterQuery;
 import com.hengheng.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +27,7 @@ public class LoginController {
     @Resource
     private LoginService loginService;
 
-    @PostMapping("register")
+    @AnonymousPostMapping("register")
     @ApiOperation("注册账号")
     public AjaxResult register(@RequestBody @Valid RegisterQuery registerQuery) {
         Boolean result = loginService.register(registerQuery);
@@ -39,7 +38,7 @@ public class LoginController {
         }
     }
 
-    @PostMapping("login")
+    @AnonymousPostMapping("login")
     @ApiOperation("登录")
     public AjaxResult login(@RequestBody @Valid LoginQuery loginQuery) {
         return loginService.login(loginQuery);

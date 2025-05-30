@@ -1,4 +1,4 @@
-package com.hengheng.common.config;
+package com.hengheng.security.config.bean;
 
 import com.google.code.kaptcha.Producer;
 import com.google.code.kaptcha.util.Config;

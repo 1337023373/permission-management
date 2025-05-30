@@ -7,10 +7,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.*;
@@ -69,7 +67,7 @@ public class TokenUtil {
     /**
      * 生成加密后的秘钥
      */
-    private static SecretKey generalKey() {
+    public static SecretKey generalKey() {
         byte[] encodedKey = Base64.getDecoder().decode(jwtProperties.getKey());
         return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
     }

@@ -1,4 +1,3 @@
-
 server:
   port: 9090   #  配置启动端口号
   servlet:
@@ -6,23 +5,27 @@ server:
 
 mybatis:
   config-location: classpath:mybatis.cfg.xml    #  mybatis主配置文件所在路径
-#  type-aliases-package: com.demo.drools.entity  #  定义所有操作类的别名所在包
-  mapper-locations:                                     #  所有的mapper映射文件
+  #  type-aliases-package: com.demo.drools.entity  #  定义所有操作类的别名所在包
+  mapper-locations: #  所有的mapper映射文件
     - classpath:mapper/*.xml
 
 
 spring: #springboot的配置
-  datasource: #定义数据源
-    #127.0.0.1为本机测试的ip，3306是mysql的端口号。serverTimezone是定义时区，照抄就好，mysql高版本需要定义这些东西
-    #useSSL也是某些高版本mysql需要问有没有用SSL连接
-    url: jdbc:mysql://localhost:3306/eladmin?serverTimezone=GMT%2B8&useSSL=FALSE
-    username: root  #数据库用户名，root为管理员
-    password: root #该数据库用户的密码
-    # 使用druid数据源
-    type: com.alibaba.druid.pool.DruidDataSource
+#  datasource: #定义数据源
+#    #127.0.0.1为本机测试的ip，3306是mysql的端口号。serverTimezone是定义时区，照抄就好，mysql高版本需要定义这些东西
+#    #useSSL也是某些高版本mysql需要问有没有用SSL连接
+#    url: jdbc:mysql://localhost:3306/eladmin?serverTimezone=GMT%2B8&useSSL=FALSE
+#    username: root  #数据库用户名，root为管理员
+#    password: root #该数据库用户的密码
+#    # 使用druid数据源
+#    type: com.alibaba.druid.pool.DruidDataSource
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  profiles:
+    active: company
+
+
 # mybatis-plus相关配置
 mybatis-plus:
   # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
@@ -51,8 +54,3 @@ springfox:
     swagger-ui:
       # 是否开启swagger
       enabled: true
-    swagger:
-      v2:
-        enabled: true
-
-

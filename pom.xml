@@ -24,7 +24,8 @@
         <hibernate-validator>8.0.1.Final</hibernate-validator>
         <kaptcha>2.3.2</kaptcha>
         <hutool-jwt>5.8.25</hutool-jwt>
-        <jjwt>0.9.1</jjwt>
+        <jjwt.version>0.11.5</jjwt.version>
+        <jasypt-spring-boot-starter>3.0.5</jasypt-spring-boot-starter>
     </properties>
 
     <dependencies>
@@ -115,10 +116,29 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <!--        不推荐使用-->
+        <!--        <dependency>-->
+        <!--            <groupId>io.jsonwebtoken</groupId>-->
+        <!--            <artifactId>jjwt</artifactId>-->
+        <!--            <version>${jjwt}</version>-->
+        <!--        </dependency>-->
+
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt}</version>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId> <!-- 或者 jjwt-gson -->
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -130,6 +150,27 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!--        Jasypt-->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt-spring-boot-starter}</version>
+        </dependency>
+
+        <!--        快捷创建list等依赖-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.1.3-jre</version> <!-- 建议使用最新版 -->
+        </dependency>
+
+        <!--        base64的依赖 -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version> <!-- 可改为最新版本 -->
         </dependency>
 
     </dependencies>

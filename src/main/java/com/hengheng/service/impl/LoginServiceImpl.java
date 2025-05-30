@@ -2,6 +2,7 @@ package com.hengheng.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.SecureUtil;
+import com.hengheng.common.config.JwtProperties;
 import com.hengheng.common.utils.AjaxResult;
 import com.hengheng.common.utils.RedisCache;
 import com.hengheng.common.utils.TokenUtil;
@@ -10,7 +11,6 @@ import com.hengheng.pojo.query.LoginQuery;
 import com.hengheng.pojo.query.RegisterQuery;
 import com.hengheng.repository.UserInfoRepository;
 import com.hengheng.service.LoginService;
-import io.lettuce.core.RedisClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +29,8 @@ public class LoginServiceImpl implements LoginService {
     private UserInfoRepository userInfoRepository;
     @Resource
     private RedisCache redisCache;
+    @Resource
+    private JwtProperties jwtProperties;
 
     /**
      * @param registerQuery
@@ -39,7 +41,7 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public Boolean register(RegisterQuery registerQuery) {
-        String encryptedPwd  = SecureUtil.md5(registerQuery.getPassword());
+        String encryptedPwd = SecureUtil.md5(registerQuery.getPassword());
         UserInfoEntity userInfoEntity = new UserInfoEntity();
         BeanUtils.copyProperties(registerQuery, userInfoEntity);
         userInfoEntity.setPassword(encryptedPwd);
@@ -55,9 +57,9 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public AjaxResult login(LoginQuery loginQuery) {
-        String key ="captcha:" + loginQuery.getCaptchaUUID();
+        String key = "captcha:" + loginQuery.getCaptchaUUID();
         System.out.println(key);
-        String cachedCaptcha  = redisCache.getCacheObject(key).toString();
+        String cachedCaptcha = redisCache.getCacheObject(key).toString();
 
         if (cachedCaptcha == null) {
             return AjaxResult.error("AjaxResult");
@@ -80,7 +82,7 @@ public class LoginServiceImpl implements LoginService {
         //生成token
         String jwt = TokenUtil.createJWT(userInfo);
         Map<String, Object> data = new HashMap<>();
-        data.put("token", jwt);
+        data.put("token", jwtProperties.getTokenStartWith() + jwt);
         return AjaxResult.success(data);
     }
 }

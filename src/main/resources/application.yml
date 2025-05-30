@@ -11,14 +11,14 @@ mybatis:
 
 
 spring: #springboot的配置
-  datasource: #定义数据源
-    #127.0.0.1为本机测试的ip，3306是mysql的端口号。serverTimezone是定义时区，照抄就好，mysql高版本需要定义这些东西
-    #useSSL也是某些高版本mysql需要问有没有用SSL连接
-    url: jdbc:mysql://localhost:3306/eladmin?serverTimezone=GMT%2B8&useSSL=FALSE
-    username: root  #数据库用户名，root为管理员
-    password: root #该数据库用户的密码
-    # 使用druid数据源
-    type: com.alibaba.druid.pool.DruidDataSource
+#  datasource: #定义数据源
+#    #127.0.0.1为本机测试的ip，3306是mysql的端口号。serverTimezone是定义时区，照抄就好，mysql高版本需要定义这些东西
+#    #useSSL也是某些高版本mysql需要问有没有用SSL连接
+#    url: jdbc:mysql://localhost:3306/eladmin?serverTimezone=GMT%2B8&useSSL=FALSE
+#    username: root  #数据库用户名，root为管理员
+#    password: root #该数据库用户的密码
+#    # 使用druid数据源
+#    type: com.alibaba.druid.pool.DruidDataSource
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -54,22 +54,3 @@ springfox:
     swagger-ui:
       # 是否开启swagger
       enabled: true
-
-jwt:
-  key: ibudai
-  ttl: 300000 # 单位为毫秒（5分钟）
-  token: Authorization
-
-auth:
-  api:
-    free:
-      /**,
-      /hh/login,
-      /hh/captcha/**,
-      /hh/swagger-ui/**,
-      /hh/v3/api-docs/**,
-      /hh/swagger-resources/**,
-      /hh/webjars/**,
-      /hh/v2/api-docs
-    user: /hh/user/**
-    admin: /hh/admin/**

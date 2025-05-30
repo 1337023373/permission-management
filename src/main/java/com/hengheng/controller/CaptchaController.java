@@ -1,26 +1,21 @@
 package com.hengheng.controller;
 
 import com.google.code.kaptcha.Producer;
+import com.hengheng.common.annotation.rest.AnonymousGetMapping;
 import com.hengheng.common.utils.AjaxResult;
 import com.hengheng.common.utils.RedisCache;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +33,7 @@ public class CaptchaController {
     @Resource
     private RedisCache redisCache;
 
-    @GetMapping("/image")
+    @AnonymousGetMapping("/image")
     @ApiOperation("生成验证码")
     public AjaxResult getCaptchaImage() throws IOException {
         String captchaText = captchaProducer.createText();
