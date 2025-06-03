@@ -2,7 +2,6 @@ package com.hengheng.common.utils;
 
 
 import com.hengheng.common.config.JwtProperties;
-import com.hengheng.pojo.entity.UserInfoEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -11,7 +10,9 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.*;
+import java.util.Base64;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * @Author lkj
@@ -20,37 +21,34 @@ import java.util.*;
  */
 @Component
 public class TokenUtil {
-    private static JwtProperties jwtProperties ;
+    private static JwtProperties jwtProperties;
 
     public TokenUtil(JwtProperties jwtProperties) {
         TokenUtil.jwtProperties = jwtProperties;
     }
 
-    public static String createJWT(UserInfoEntity userInfo) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("userId", userInfo.getUserId());
-        map.put("password", userInfo.getPassword());
-        return createJWT(map, jwtProperties.getTtl());
+    public static String getUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
+
+    //public static String createJWT(UserInfoEntity userInfo) {
+    //    HashMap<String, Object> map = new HashMap<>();
+    //    map.put("userId", userInfo.getUserId());
+    //    return createJWT(map, jwtProperties.getTtl());
+    //}
 
     /**
      * 生成 Token
      */
-    public static String createJWT(Map<String, Object> map, Long ttlMillis) {
-        long nowMillis = System.currentTimeMillis();
-        Date now = new Date(nowMillis);
+    public static String createJWT(String subject) {
+        return getJwtBuilder(subject, null, getUUID()).compact();
+    }
 
-        long expMillis = nowMillis + ttlMillis;
-        Date expDate = new Date(expMillis);
-
-        return Jwts.builder()
-                .setClaims(map)
-                .setId(UUID.randomUUID().toString())
-                .setIssuedAt(now)
-                .setExpiration(expDate)
-                .setIssuer("budai")
-                .signWith(SignatureAlgorithm.HS256, generalKey())
-                .compact();
+    /**
+     * 创建一个带有过期时间的JWT（JSON Web Token）字符串。
+     */
+    public static String createJWT(String subject, Long ttlMillis) {
+        return getJwtBuilder(subject, ttlMillis, getUUID()).compact();
     }
 
     /**
@@ -68,16 +66,18 @@ public class TokenUtil {
      * 生成加密后的秘钥
      */
     public static SecretKey generalKey() {
-        //byte[] encodedKey = Base64.getDecoder().decode(jwtProperties.getKey());
-        String base64Key = jwtProperties.getKey(); // 必须是 Base64 编码
+        String base64Key = jwtProperties.getKey();
         byte[] encodedKey = Base64.getDecoder().decode(base64Key);
-        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "HmacSHA256");
+        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
     }
 
 
     private static JwtBuilder getJwtBuilder(String subject, Long ttlMillis, String uuid) {
+        //定义签名算法
         SignatureAlgorithm algorithm = SignatureAlgorithm.HS256;
+        //生成密钥
         SecretKey secretKey = generalKey();
+        //计算过期时间
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         if (ttlMillis == null) {
@@ -85,6 +85,7 @@ public class TokenUtil {
         }
         long expMillis = nowMillis + ttlMillis;
         Date expDate = new Date(expMillis);
+
         return Jwts.builder()
                 .setId(uuid)
                 // 计算内容

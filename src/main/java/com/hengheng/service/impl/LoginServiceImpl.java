@@ -80,7 +80,7 @@ public class LoginServiceImpl implements LoginService {
         }
 
         //生成token
-        String jwt = TokenUtil.createJWT(userInfo);
+        String jwt = TokenUtil.createJWT(userInfo.getUserId().toString());
         Map<String, Object> data = new HashMap<>();
         data.put("token", jwtProperties.getTokenStartWith() + jwt);
         return AjaxResult.success(data);
