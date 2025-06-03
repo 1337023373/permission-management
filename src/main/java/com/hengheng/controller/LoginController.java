@@ -43,4 +43,5 @@ public class LoginController {
     public AjaxResult login(@RequestBody @Valid LoginQuery loginQuery) {
         return loginService.login(loginQuery);
     }
+
 }

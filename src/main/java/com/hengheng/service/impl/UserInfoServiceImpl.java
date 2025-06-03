@@ -3,6 +3,7 @@ package com.hengheng.service.impl;
 import com.hengheng.pojo.entity.UserInfoEntity;
 import com.hengheng.pojo.vo.UserInfoVO;
 import com.hengheng.repository.UserInfoRepository;
+import com.hengheng.repository.UserRoleRepository;
 import com.hengheng.service.UserInfoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Resource
     private UserInfoRepository userInfoRepository;
+    @Resource
+    private UserRoleRepository userRoleRepository;
 
     @Override
     public List<UserInfoVO> queryUser() {
@@ -28,9 +31,14 @@ public class UserInfoServiceImpl implements UserInfoService {
         ArrayList<UserInfoVO> voList = new ArrayList<>();
         for (UserInfoEntity l : list) {
             UserInfoVO vo = new UserInfoVO();
-            BeanUtils.copyProperties(l, UserInfoVO.class);
+            BeanUtils.copyProperties(l, vo);
             voList.add(vo);
         }
         return voList;
+    }
+
+    @Override
+    public Boolean checkPermission(Long id, Long roleId) {
+       return userRoleRepository.checkPermission(id, roleId);
     }
 }

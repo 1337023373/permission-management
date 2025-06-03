@@ -29,4 +29,5 @@ public interface LoginService {
      * @return
      */
     AjaxResult login(LoginQuery loginQuery);
+
 }

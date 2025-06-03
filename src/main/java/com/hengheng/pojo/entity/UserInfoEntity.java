@@ -1,6 +1,7 @@
 package com.hengheng.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hengheng.pojo.common.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -55,5 +56,6 @@ public class UserInfoEntity extends BaseEntity {
     private Boolean enabled = true;
 
     @ApiModelProperty("密码重置时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private LocalDateTime pwdResetTime;
 }

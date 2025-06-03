@@ -85,4 +85,5 @@ public class LoginServiceImpl implements LoginService {
         data.put("token", jwtProperties.getTokenStartWith() + jwt);
         return AjaxResult.success(data);
     }
+
 }

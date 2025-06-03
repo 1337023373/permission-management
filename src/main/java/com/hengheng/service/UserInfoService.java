@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface UserInfoService {
     List<UserInfoVO> queryUser();
+
+    Boolean checkPermission(Long id, Long roleId);
 }

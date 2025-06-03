@@ -68,9 +68,12 @@ public class TokenUtil {
      * 生成加密后的秘钥
      */
     public static SecretKey generalKey() {
-        byte[] encodedKey = Base64.getDecoder().decode(jwtProperties.getKey());
-        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+        //byte[] encodedKey = Base64.getDecoder().decode(jwtProperties.getKey());
+        String base64Key = jwtProperties.getKey(); // 必须是 Base64 编码
+        byte[] encodedKey = Base64.getDecoder().decode(base64Key);
+        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "HmacSHA256");
     }
+
 
     private static JwtBuilder getJwtBuilder(String subject, Long ttlMillis, String uuid) {
         SignatureAlgorithm algorithm = SignatureAlgorithm.HS256;
