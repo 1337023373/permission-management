@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +36,11 @@ public class LoginServiceImpl implements LoginService {
     private RedisCache redisCache;
     @Resource
     private JwtProperties jwtProperties;
+
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    @Resource
+    private AuthenticationManagerBuilder authenticationManagerBuilder;
     /**
      * @param registerQuery
      * @return boolean
@@ -81,19 +84,12 @@ public class LoginServiceImpl implements LoginService {
 
         //调用authenticationManager.authenticate()方法对用户进行身份验证，返回一个Authentication对象。
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+        //Authentication authenticate = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         if (ObjectUtil.isNull(authenticate)) {
             return AjaxResult.error("用户名或者密码错误");
         }
         //从authenticate对象中获取登录用户的信息。
         UserInfoEntity userInfo = (UserInfoEntity) authenticate.getPrincipal();
-
-        //UserInfoEntity userInfo = userInfoRepository.findUserByUserName(loginQuery.getUserName());
-        //if (ObjectUtil.isEmpty(userInfo)) {
-        //    return AjaxResult.error("用户不存在");
-        //}
-        //if (!userInfo.getPassword().equals(SecureUtil.md5(loginQuery.getPassword()))) {
-        //    return AjaxResult.error("密码不正确");
-        //}
 
         //生成token
         String jwt = TokenUtil.createJWT(userInfo.getUserId().toString());

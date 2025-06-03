@@ -31,12 +31,6 @@ public class TokenUtil {
         return UUID.randomUUID().toString().replace("-", "");
     }
 
-    //public static String createJWT(UserInfoEntity userInfo) {
-    //    HashMap<String, Object> map = new HashMap<>();
-    //    map.put("userId", userInfo.getUserId());
-    //    return createJWT(map, jwtProperties.getTtl());
-    //}
-
     /**
      * 生成 Token
      */

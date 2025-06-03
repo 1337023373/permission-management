@@ -1,19 +1,28 @@
 package com.hengheng.security.config.bean;
 
+import com.hengheng.security.config.JwtAuthenticationTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.annotation.Resource;
 
 /**
  * @author lkj
  */
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Resource
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -37,15 +46,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/error",
 
                         //登录和验证码接口
-                        "/hh/login",
-                        "/hh/login/**",
-                        "/hh/captcha/**"
+                        "/login",
+                        "/login/**",
+                        "/captcha/**"
+
                 ).permitAll()
                 //指定其他所有请求都需要进行身份验证。
                 .anyRequest().authenticated()
-        //.and()
-        //.httpBasic()
         ;
+        //把token校验过滤器添加到过滤器链中
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     /**

@@ -18,7 +18,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-public class UserInfoServiceImpl implements UserInfoService {
+public class UserInfoServiceImpl implements UserInfoService{
 
     @Resource
     private UserInfoRepository userInfoRepository;
