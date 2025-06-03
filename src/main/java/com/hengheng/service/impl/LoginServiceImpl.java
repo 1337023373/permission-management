@@ -1,22 +1,21 @@
 package com.hengheng.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.crypto.SecureUtil;
-import com.hengheng.common.config.JwtProperties;
 import com.hengheng.common.utils.AjaxResult;
 import com.hengheng.common.utils.RedisCache;
 import com.hengheng.common.utils.TokenUtil;
+import com.hengheng.pojo.dto.LoginUser;
 import com.hengheng.pojo.entity.UserInfoEntity;
 import com.hengheng.pojo.query.LoginQuery;
 import com.hengheng.pojo.query.RegisterQuery;
 import com.hengheng.repository.UserInfoRepository;
+import com.hengheng.security.config.bean.SecurityProperties;
 import com.hengheng.service.LoginService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,12 +34,13 @@ public class LoginServiceImpl implements LoginService {
     @Resource
     private RedisCache redisCache;
     @Resource
-    private JwtProperties jwtProperties;
+    private SecurityProperties securityProperties;
 
-    @Autowired
+    @Resource
     private AuthenticationManager authenticationManager;
     @Resource
-    private AuthenticationManagerBuilder authenticationManagerBuilder;
+    private PasswordEncoder passwordEncoder;
+
     /**
      * @param registerQuery
      * @return boolean
@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public Boolean register(RegisterQuery registerQuery) {
-        String encryptedPwd = SecureUtil.md5(registerQuery.getPassword());
+        String encryptedPwd = passwordEncoder.encode(registerQuery.getPassword());
         UserInfoEntity userInfoEntity = new UserInfoEntity();
         BeanUtils.copyProperties(registerQuery, userInfoEntity);
         userInfoEntity.setPassword(encryptedPwd);
@@ -76,7 +76,7 @@ public class LoginServiceImpl implements LoginService {
             return AjaxResult.error("验证码错误");
         }
         //验证成功删除缓存，避免重复使用
-        redisCache.deleteObject(key);
+//        redisCache.deleteObject(key);
 
         //验证账号密码
         //创建一个UsernamePasswordAuthenticationToken对象，将用户的用户名和密码作为参数传入。
@@ -89,12 +89,14 @@ public class LoginServiceImpl implements LoginService {
             return AjaxResult.error("用户名或者密码错误");
         }
         //从authenticate对象中获取登录用户的信息。
-        UserInfoEntity userInfo = (UserInfoEntity) authenticate.getPrincipal();
+        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
+        UserInfoEntity userInfo = loginUser.getUserInfo();
+        redisCache.setCacheObject("login:" + userInfo.getUserId().toString(), userInfo);
 
         //生成token
         String jwt = TokenUtil.createJWT(userInfo.getUserId().toString());
         Map<String, Object> data = new HashMap<>();
-        data.put("token", jwtProperties.getTokenStartWith() + jwt);
+        data.put("token", securityProperties.getTokenStartWith() + jwt);
         return AjaxResult.success(data);
     }
 

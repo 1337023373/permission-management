@@ -1,7 +1,7 @@
 package com.hengheng.common.utils;
 
 
-import com.hengheng.common.config.JwtProperties;
+import com.hengheng.security.config.bean.SecurityProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -21,10 +21,10 @@ import java.util.UUID;
  */
 @Component
 public class TokenUtil {
-    private static JwtProperties jwtProperties;
+    private static SecurityProperties securityProperties;
 
-    public TokenUtil(JwtProperties jwtProperties) {
-        TokenUtil.jwtProperties = jwtProperties;
+    public TokenUtil(SecurityProperties securityProperties) {
+        TokenUtil.securityProperties = securityProperties;
     }
 
     public static String getUUID() {
@@ -49,10 +49,11 @@ public class TokenUtil {
      * 解析 Token
      */
     public static Claims parseJWT(String token) {
+        String substring = token.substring(securityProperties.getTokenStartWith().length());
         SecretKey secretKey = generalKey();
         return Jwts.parser()
                 .setSigningKey(secretKey)
-                .parseClaimsJws(token)
+                .parseClaimsJws(substring)
                 .getBody();
     }
 
@@ -60,9 +61,9 @@ public class TokenUtil {
      * 生成加密后的秘钥
      */
     public static SecretKey generalKey() {
-        String base64Key = jwtProperties.getKey();
+        String base64Key = securityProperties.getBase64Secret();
         byte[] encodedKey = Base64.getDecoder().decode(base64Key);
-        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "HmacSHA256");
     }
 
 
@@ -75,7 +76,7 @@ public class TokenUtil {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         if (ttlMillis == null) {
-            ttlMillis = jwtProperties.getTtl();
+            ttlMillis = securityProperties.getTokenValidityInSeconds();
         }
         long expMillis = nowMillis + ttlMillis;
         Date expDate = new Date(expMillis);
@@ -90,6 +91,7 @@ public class TokenUtil {
                 .setIssuedAt(now)
                 // 加密算法签名
                 .signWith(algorithm, secretKey)
+
                 .setExpiration(expDate);
     }
 }

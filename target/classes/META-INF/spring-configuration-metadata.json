@@ -1,11 +1,6 @@
 {
   "groups": [
     {
-      "name": "jjwt",
-      "type": "com.hengheng.security.config.bean.SecurityProperties",
-      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
-    },
-    {
       "name": "jwt",
       "type": "com.hengheng.common.config.JwtProperties",
       "sourceType": "com.hengheng.common.config.JwtProperties"
@@ -46,12 +41,6 @@
       "name": "jjwt.renew",
       "type": "java.lang.Long",
       "description": "续期时间",
-      "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
-    },
-    {
-      "name": "jjwt.token-start-with",
-      "type": "java.lang.String",
-      "description": "令牌前缀，最后留个空格 Bearer",
       "sourceType": "com.hengheng.security.config.bean.SecurityProperties"
     },
     {
