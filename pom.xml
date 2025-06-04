@@ -173,6 +173,12 @@
             <version>1.15</version> <!-- 可改为最新版本 -->
         </dependency>
 
+        <dependency>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-ip2region</artifactId>
+            <version>3.4.5</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

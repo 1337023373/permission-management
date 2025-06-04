@@ -8,6 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+
+/**
+ * @description jwt登录信息，实现security的UserDetails接口
+ * @param
+ * @author  lkj
+ * @date  2025/6/4
+ * @return
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

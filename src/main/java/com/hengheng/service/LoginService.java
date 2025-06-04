@@ -4,6 +4,8 @@ import com.hengheng.common.utils.AjaxResult;
 import com.hengheng.pojo.query.LoginQuery;
 import com.hengheng.pojo.query.RegisterQuery;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Author lkj
  * @Date 2025/5/22 14:21
@@ -28,6 +30,15 @@ public interface LoginService {
      * @date  2025/5/22
      * @return
      */
-    AjaxResult login(LoginQuery loginQuery);
+    AjaxResult login(LoginQuery loginQuery,HttpServletRequest httpServletRequest);
 
+    /**
+     * @description 登出
+     * @param
+     * @author  lkj
+     * @date  2025/6/4
+     * @return
+     */
+
+    void loginOut(HttpServletRequest httpRequest);
 }
