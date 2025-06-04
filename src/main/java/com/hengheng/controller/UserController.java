@@ -43,4 +43,11 @@ public class UserController {
         Boolean res = userInfoService.checkPermission(id, roleId);
         return AjaxResult.success(res);
     }
+
+    @ApiOperation("新增用户")
+    @GetMapping("addUser")
+    public AjaxResult addUser(@RequestParam("id") Long id,@RequestParam("roleId") Long roleId) {
+        Boolean res = userInfoService.checkPermission(id, roleId);
+        return AjaxResult.success(res);
+    }
 }

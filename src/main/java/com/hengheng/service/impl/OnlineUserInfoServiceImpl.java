@@ -10,6 +10,7 @@ import com.hengheng.pojo.entity.UserInfoEntity;
 import com.hengheng.security.config.bean.SecurityProperties;
 import com.hengheng.service.OnlineUserInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * @Version 1.0
  */
 @Slf4j
+@Service
 public class OnlineUserInfoServiceImpl implements OnlineUserInfoService {
     @Resource
     private TokenUtil tokenUtil;
@@ -43,6 +45,7 @@ public class OnlineUserInfoServiceImpl implements OnlineUserInfoService {
         }
         //生成redis-key
         String loginKey = tokenUtil.loginKey(jwt);
+        System.out.println(loginKey);
         redisUtils.set(loginKey, onlineUserDto, securityProperties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
 
     }

@@ -3,11 +3,12 @@ package com.hengheng.security.config;
 import com.hengheng.common.utils.RedisCache;
 import com.hengheng.common.utils.TokenUtil;
 import com.hengheng.pojo.entity.UserInfoEntity;
+import com.hengheng.security.config.bean.SecurityProperties;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
@@ -29,6 +30,8 @@ import java.util.Objects;
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Resource
     private RedisCache redisCache;
+    @Resource
+    private SecurityProperties securityProperties;
 
     // 白名单路径：不需要校验 Token 的路径
     private static final List<String> WHITE_LIST = Arrays.asList(
@@ -62,15 +65,16 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         //获取请求头中的token
         String token = httpServletRequest.getHeader("Authorization");
         //检查token是否存在：如果token不存在，则直接放行请求，继续执行后续的过滤器或处理器。
-        if(!StringUtils.hasText(token)){
+        if(StringUtils.isBlank(token)){
             //放行操作
             filterChain.doFilter(httpServletRequest,httpServletResponse);
             return;
         }
         String userId;
+        String substring = token.substring(securityProperties.getTokenStartWith().length());
         try {
             Claims claims = TokenUtil
-                    .parseJWT(token);
+                    .parseJWT(substring);
             userId = claims.getSubject();
         } catch (Exception exception) {
             exception.printStackTrace();

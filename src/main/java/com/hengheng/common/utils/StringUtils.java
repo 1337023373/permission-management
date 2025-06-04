@@ -39,10 +39,10 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     private static final char SEPARATOR = '_';
     private static final String UNKNOWN = "unknown";
 
-    /**
-     * 注入bean
-     */
-    private final static Ip2regionSearcher IP_SEARCHER = SpringContextHolder.getBean(Ip2regionSearcher.class);
+    ///**
+    // * 注入bean
+    // */
+    //private final static Ip2regionSearcher IP_SEARCHER = SpringContextHolder.getBean(Ip2regionSearcher.class);
 
     /**
      * 驼峰命名法工具
@@ -163,8 +163,12 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * 根据ip获取详细地址
      */
     public static String getCityInfo(String ip) {
+        if ("0:0:0:0:0:0:0:1".equals(ip) || "::1".equals(ip)) {
+            ip = "127.0.0.1";
+        }
+        Ip2regionSearcher IP_SEARCHER = SpringContextHolder.getBean(Ip2regionSearcher.class);
         IpInfo ipInfo = IP_SEARCHER.memorySearch(ip);
-        if(ipInfo != null){
+        if (ipInfo != null) {
             return ipInfo.getAddress();
         }
         return null;
@@ -173,7 +177,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static String getBrowser(HttpServletRequest request) {
         UserAgent ua = UserAgentUtil.parse(request.getHeader("User-Agent"));
         String browser = ua.getBrowser().toString() + " " + ua.getVersion();
-        return browser.replace(".0.0.0","");
+        return browser.replace(".0.0.0", "");
     }
 
     /**
@@ -200,10 +204,10 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         try {
             InetAddress candidateAddress = null;
             // 遍历所有的网络接口
-            for (Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces(); interfaces.hasMoreElements();) {
+            for (Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces(); interfaces.hasMoreElements(); ) {
                 NetworkInterface anInterface = interfaces.nextElement();
                 // 在所有的接口下再遍历IP
-                for (Enumeration<InetAddress> inetAddresses = anInterface.getInetAddresses(); inetAddresses.hasMoreElements();) {
+                for (Enumeration<InetAddress> inetAddresses = anInterface.getInetAddresses(); inetAddresses.hasMoreElements(); ) {
                     InetAddress inetAddr = inetAddresses.nextElement();
                     // 排除loopback类型地址
                     if (!inetAddr.isLoopbackAddress()) {

@@ -82,7 +82,7 @@ public class LoginServiceImpl implements LoginService {
             return AjaxResult.error("验证码错误");
         }
         //验证成功删除缓存，避免重复使用
-        redisCache.deleteObject(key);
+        //redisCache.deleteObject(key);
 
         //验证账号密码
         //创建一个UsernamePasswordAuthenticationToken对象，将用户的用户名和密码作为参数传入。

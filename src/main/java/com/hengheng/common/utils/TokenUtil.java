@@ -53,11 +53,11 @@ public class TokenUtil {
      * 解析 Token
      */
     public static Claims parseJWT(String token) {
-        String substring = token.substring(securityProperties.getTokenStartWith().length());
+        //String substring = token.substring(securityProperties.getTokenStartWith().length());
         SecretKey secretKey = generalKey();
         return Jwts.parser()
                 .setSigningKey(secretKey)
-                .parseClaimsJws(substring)
+                .parseClaimsJws(token)
                 .getBody();
     }
 
