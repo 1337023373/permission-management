@@ -22,6 +22,8 @@ public class DeptEntity extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //private Set<Role> roles;
+    @ApiModelProperty
+    private Long deptId;
 
     @ApiModelProperty(value = "排序")
     private Integer deptSort;

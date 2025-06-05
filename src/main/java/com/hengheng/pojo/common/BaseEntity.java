@@ -1,7 +1,5 @@
 package com.hengheng.pojo.common;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,9 +13,6 @@ import java.time.LocalDateTime;
  */
 @Data
 public class BaseEntity {
-    @TableId(type = IdType.AUTO)
-    @ApiModelProperty(value = "主键")
-    private Integer id;
 
     @ApiModelProperty("创建者")
     private String createBy;

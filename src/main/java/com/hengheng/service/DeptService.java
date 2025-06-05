@@ -1,5 +1,9 @@
 package com.hengheng.service;
 
+import com.hengheng.pojo.vo.DeptTreeVO;
+
+import java.util.List;
+
 /**
  * @Author lkj
  * @Date 2025/6/4 15:08
@@ -7,5 +11,5 @@ package com.hengheng.service;
  */
 public interface DeptService {
 
-    void getDept();
+    List<DeptTreeVO> getDept(Long pId);
 }
